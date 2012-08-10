@@ -36,6 +36,9 @@ sub on_public {
 
 			if (exists $answerhash{$q}) {
 				Irssi::print("TriviaCheat: Answer found in " . $target);
+				if (Irssi::settings_get_bool('triviacheat_autoreply')) {
+					$server->command("MSG $target " . $answerhash{$q}{'answer'});
+				}
 				$win->print($answerhash{$q}{'answer'});
 			}
 
@@ -67,8 +70,10 @@ sub cmd_save {
 }
 
 sub cmd_load {
-	$answerhash = retrieve('trivia_answers.hash');
+	%answerhash = %{retrieve('trivia_answers.hash')};
 }
+
+Irssi::settings_add_bool('triviacheat','triviacheat_autoreply',0);
 
 # hooks
 Irssi::signal_add_last("message public", "on_public");
