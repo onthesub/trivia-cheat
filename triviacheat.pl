@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/perl -w
 #
 # trivia cheater
@@ -15,6 +13,7 @@ $VERSION = "0.2";
 );
 
 my %answerhash;
+my %channels;
 my $currentq = '';
 
 sub on_public {
@@ -32,6 +31,8 @@ sub on_public {
 			$msg =~ m/\. (.*)/;
 			$q = $1;
 
+			$channels{$target}{'question'} = $q;
+
 			if (exists $answerhash{$q}) {
 				Irssi::active_win()->print($answerhash{$q}{'answer'});
 			}
@@ -41,14 +42,20 @@ sub on_public {
 			$msg =~ m/answer was: (.*)/;
 			$answer = $1;
 
+			$currentq = $channels{$target}{'question'};
+
 			$answerhash{$currentq}{'answer'} = $answer;
-			#Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
+			Irssi::active_win->print("question: " . $channels{$target}{'question'});
+			Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
 		} elsif ($msg =~ /^Winner:/) {
 			$msg =~ m/Answer: (.*); Time:/;
 			$answer = $1;
 
+			$currentq = $channels{$target}{'question'};
+
 			$answerhash{$currentq}{'answer'} = $answer;
-			#Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
+			Irssi::active_win->print("question: " . $channels{$target}{'question'});
+			Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
 		}
 	}
 }
@@ -66,4 +73,3 @@ Irssi::signal_add_last("message public", "on_public");
 
 Irssi::command_bind('tc_load', \&cmd_load);
 Irssi::command_bind('tc_save', \&cmd_save);
-
