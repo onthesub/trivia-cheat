@@ -34,7 +34,9 @@ sub on_public {
 			$channels{$target}{'question'} = $q;
 
 			if (exists $answerhash{$q}) {
-				Irssi::active_win()->print($answerhash{$q}{'answer'});
+				Irssi::active_win->print("answer found in " . $target);
+				my $win = Irssi::window_find_name($target);
+				$win->print($answerhash{$q}{'answer'});
 			}
 
 			$currentq = $q;
@@ -45,8 +47,8 @@ sub on_public {
 			$currentq = $channels{$target}{'question'};
 
 			$answerhash{$currentq}{'answer'} = $answer;
-			Irssi::active_win->print("question: " . $channels{$target}{'question'});
-			Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
+			#Irssi::active_win->print("question: " . $channels{$target}{'question'});
+			#Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
 		} elsif ($msg =~ /^Winner:/) {
 			$msg =~ m/Answer: (.*); Time:/;
 			$answer = $1;
@@ -54,8 +56,8 @@ sub on_public {
 			$currentq = $channels{$target}{'question'};
 
 			$answerhash{$currentq}{'answer'} = $answer;
-			Irssi::active_win->print("question: " . $channels{$target}{'question'});
-			Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
+			#Irssi::active_win->print("question: " . $channels{$target}{'question'});
+			#Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
 		}
 	}
 }
