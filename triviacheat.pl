@@ -18,6 +18,7 @@ my $currentq = '';
 
 sub on_public {
 	my ($server, $msg, $nick, $addr, $target) = @_;
+	my $win = Irssi::window_find_item($target);
 
 	$target = $nick if ( ! $target );
 	$nick = $server->{'nick'} if ($nick =~ /^#/);
@@ -34,8 +35,7 @@ sub on_public {
 			$channels{$target}{'question'} = $q;
 
 			if (exists $answerhash{$q}) {
-				Irssi::active_win->print("answer found in " . $target);
-				my $win = Irssi::window_find_name($target);
+				Irssi::print("TriviaCheat: Answer found in " . $target);
 				$win->print($answerhash{$q}{'answer'});
 			}
 
@@ -47,8 +47,8 @@ sub on_public {
 			$currentq = $channels{$target}{'question'};
 
 			$answerhash{$currentq}{'answer'} = $answer;
-			#Irssi::active_win->print("question: " . $channels{$target}{'question'});
-			#Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
+			#$win->print("question: " . $channels{$target}{'question'});
+			#$win->print("answer saved: " . $answerhash{$currentq}{'answer'});
 		} elsif ($msg =~ /^Winner:/) {
 			$msg =~ m/Answer: (.*); Time:/;
 			$answer = $1;
@@ -56,8 +56,8 @@ sub on_public {
 			$currentq = $channels{$target}{'question'};
 
 			$answerhash{$currentq}{'answer'} = $answer;
-			#Irssi::active_win->print("question: " . $channels{$target}{'question'});
-			#Irssi::active_win->print("answer saved: " . $answerhash{$currentq}{'answer'});
+			#$win->print("question: " . $channels{$target}{'question'});
+			#$win->print("answer saved: " . $answerhash{$currentq}{'answer'});
 		}
 	}
 }
