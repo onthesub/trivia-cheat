@@ -39,8 +39,9 @@ sub on_public {
 				if (Irssi::settings_get_bool('triviacheat_autoreply')) {
 					sleep 2;
 					$server->command("MSG $target " . $answerhash{$q}{'answer'});
+				} else {
+					$win->print($answerhash{$q}{'answer'});
 				}
-				$win->print($answerhash{$q}{'answer'});
 			}
 
 			$currentq = $q;
