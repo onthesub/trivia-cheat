@@ -35,8 +35,9 @@ sub on_public {
 			$channels{$target}{'question'} = $q;
 
 			if (exists $answerhash{$q}) {
-				Irssi::print("TriviaCheat: Answer found in " . $target);
+				#Irssi::print("TriviaCheat: Answer found in " . $target);
 				if (Irssi::settings_get_bool('triviacheat_autoreply')) {
+					sleep 2;
 					$server->command("MSG $target " . $answerhash{$q}{'answer'});
 				}
 				$win->print($answerhash{$q}{'answer'});
