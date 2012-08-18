@@ -34,7 +34,7 @@ sub on_public {
 
 			$channels{$target}{'question'} = $q;
 
-			if (exists $answerhash{$q}) {
+			if (Irssi::settings_get_bool('triviacheat_enable') && exists $answerhash{$q}) {
 				#Irssi::print("TriviaCheat: Answer found in " . $target);
 				if (Irssi::settings_get_bool('triviacheat_autoreply')) {
 					sleep 2;
@@ -75,6 +75,7 @@ sub cmd_load {
 	%answerhash = %{retrieve('trivia_answers.hash')};
 }
 
+Irssi::settings_add_bool('triviacheat','triviacheat_enable',1);
 Irssi::settings_add_bool('triviacheat','triviacheat_autoreply',0);
 
 # hooks
